@@ -12,9 +12,12 @@ namespace Server
         public bool IsPrivate { get; set; }
         private List<Card> cards;
         public int bestScore {get; set;}
+        public List<QuizResult> QuizResults {get; set;}
         public Quiz(string name, bool isPrivate) { 
-            Name = name;            
+            Name = name;
+            IsPrivate = isPrivate;
             cards = new List<Card>();
+            QuizResults = new List<QuizResult>();
         }
         public void AddCard(Card card) {
             cards.Add(card);
@@ -29,16 +32,13 @@ namespace Server
         public List<Card> GetCards() { 
             return cards ;
         }
-        public int CheckAnswers(List<int> indexes)
+        public int CheckAnswers(List<int> indexes, Card card)
         {
             int correct = 0;
-            foreach (var card in cards) {
-                bool isCorrect = indexes.SequenceEqual(card.correctAnswIndexes);
-
-                if (isCorrect)
-                {
-                    correct ++;
-                }
+            bool isCorrect = indexes.SequenceEqual(card.correctAnswIndexes);
+            if (isCorrect)
+            {
+                correct++;
             }
             return correct;
             
